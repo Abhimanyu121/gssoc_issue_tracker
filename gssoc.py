@@ -2,11 +2,15 @@ from agithub.GitHub import GitHub
 import json
 import csv
 import os
+
+#Add your Github Credentials here
 g = GitHub('randomname', '***')
+#Deleting out.csv if it already exists
 try:
     os.remove('out.csv')
 except OSError:
     pass
+#Fetching pull requests
 pull_dict={}
 with open('list.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile)
@@ -16,6 +20,7 @@ with open('list.csv', newline='') as csvfile:
         status ,data = g.repos[row[1]].pulls.get()
         y =json.dumps(data,indent=2)
         z= json.loads(y)
+#Finding latest pull request
         max = 0
         for item in z:
             if(item.get("number")>max):
@@ -30,6 +35,7 @@ with open('list.csv', newline='') as csvfile:
                 break
         i= i+1
 print(pull_dict)
+#Fetching Iusses
 details_dict={}
 with open('list.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile)
@@ -38,6 +44,7 @@ with open('list.csv', newline='') as csvfile:
         status ,data = g.repos[row[1]].issues.get()
         y =json.dumps(data,indent=2)
         z= json.loads(y)
+#finding latest issue
         max = 0
         for item in z:
             if(item.get("number")>max):
@@ -52,6 +59,7 @@ with open('list.csv', newline='') as csvfile:
                 break
         i= i+1
 print(details_dict)
+#Writing everything to "out.csv" file
 headers = ['name','issues','title_i','state_i','created_at_i','updated_at_i','pulls','title_p','state_p','created_at_p','updated_at_p']
 x=0
 with open('list.csv', newline='') as csvfile, open('out.csv', 'a', newline='') as outfile:
