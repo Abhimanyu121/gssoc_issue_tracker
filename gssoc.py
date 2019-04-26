@@ -4,7 +4,7 @@ import csv
 import os
 
 #Add your Github Credentials here
-g = GitHub('randomname', '***')
+g = GitHub('username', 'password')
 #Deleting out.csv if it already exists
 try:
     os.remove('out.csv')
