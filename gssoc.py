@@ -1,7 +1,12 @@
 from agithub.GitHub import GitHub
 import json
 import csv
+import os
 g = GitHub('randomname', '***')
+try:
+    os.remove('out.csv')
+except OSError:
+    pass
 pull_dict={}
 with open('list.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile)
