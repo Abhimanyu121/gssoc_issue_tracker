@@ -3,7 +3,6 @@ import json
 import csv
 import os
 
-#Fetching pull requests
 def pull_requests(g):
 	pull_dict={}
 	with open('list.csv', newline='') as csvfile:
@@ -65,10 +64,15 @@ def write_data(pull_dict,details_dict):
 		writer.writeheader()
 		reader = csv.reader(csvfile)
 		for row in reader:
-			if x in pull_dict:
-				print(x)
+			if x in pull_dict and x in details_dict:
 				writer.writerow({'name':row[0],'title_i':details_dict[x]['title'],'state_i':details_dict[x]['state'],'created_at_i':details_dict[x]['created_at'],'updated_at_i':details_dict[x]['updated_at'],'title_p':pull_dict[x]['title'],'state_p':pull_dict[x]['state'],'created_at_p':pull_dict[x]['created_at'],'updated_at_p':pull_dict[x]['updated_at']})
-			x= x+1
+			elif x in pull_dict:
+				writer.writerow({'name':row[0],'title_p':pull_dict[x]['title'],'state_p':pull_dict[x]['state'],'created_at_p':pull_dict[x]['created_at'],'updated_at_p':pull_dict[x]['updated_at']})
+			elif x in details_dict:
+				writer.writerow({'name':row[0],'title_i':details_dict[x]['title'],'state_i':details_dict[x]['state'],'created_at_i':details_dict[x]['created_at'],'updated_at_i':details_dict[x]['updated_at']})
+			else:
+				writer.writerow({'name':row[0]})
+			x=x+1
 
 
 def main():
@@ -78,7 +82,7 @@ def main():
 	try:
 		os.remove('out.csv')
 	except OSError:
-		pass
+		pass 
 	pulls=pull_requests(g=git)
 	issue=issues(g=git)
 	write_data(pull_dict=pulls,details_dict=issue)
