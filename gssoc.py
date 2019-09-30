@@ -13,7 +13,7 @@ def pull_requests(g):
 			status ,data = g.repos[row[1]].pulls.get()
 			y =json.dumps(data,indent=2)
 			z= json.loads(y)
-#Finding latest pull request
+#Finding latest pull requests
 			max = 0
 			for item in z:
 				if(item.get("number")>max):
@@ -39,7 +39,7 @@ def issues(g):
 			status ,data = g.repos[row[1]].issues.get()
 			y =json.dumps(data,indent=2)
 			z= json.loads(y)
-#finding latest issue
+#finding latest issues
 			max = 0
 			for item in z:
 				if(item.get("number")>max):
